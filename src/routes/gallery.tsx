@@ -95,7 +95,7 @@ function GalleryPage() {
             <ChevronLeft className="h-6 w-6" />
           </button>
           <button onClick={(e) => { e.stopPropagation(); setLightbox((lightbox + 1) % filtered.length); }}
-            className="absolute right-5 top-1/2 -translate-y-1/2 grid h-12 w-12 place-items-center rounded-full bg-white/10 text-white backdrop-blur-md hover:bg-white/20">
+            className="absolute right-5 top-1/2 -translate-y-1/2 z-10 grid h-12 w-12 place-items-center rounded-full bg-white/10 text-white backdrop-blur-md hover:bg-white/20 xl:right-16">
             <ChevronRight className="h-6 w-6" />
           </button>
           <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }}

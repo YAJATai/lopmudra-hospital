@@ -1,12 +1,11 @@
 import { useRef, type ReactNode } from "react";
-import { motion, useMotionValue, useSpring } from "motion/react";
+import { motion, useMotionValue, useSpring, useTransform } from "motion/react";
 
 interface GlassPanelProps {
   children: ReactNode;
   className?: string;
   intensity?: "light" | "strong" | "dark";
   tilt?: boolean;
-  as?: "div" | "section" | "article" | "aside";
 }
 
 export function GlassPanel({
@@ -14,13 +13,14 @@ export function GlassPanel({
   className = "",
   intensity = "light",
   tilt = false,
-  as: Tag = "div",
 }: GlassPanelProps) {
   const ref = useRef<HTMLDivElement>(null);
   const x = useMotionValue(0.5);
   const y = useMotionValue(0.5);
   const springX = useSpring(x, { stiffness: 150, damping: 15 });
   const springY = useSpring(y, { stiffness: 150, damping: 15 });
+  const rotateX = useTransform(springY, (v) => (0.5 - v) * 6);
+  const rotateY = useTransform(springX, (v) => (v - 0.5) * 6);
 
   const baseClass =
     intensity === "strong"
@@ -41,13 +41,6 @@ export function GlassPanel({
     y.set(0.5);
   };
 
-  const style = tilt
-    ? {
-        transform: `perspective(1000px) rotateX(${(0.5 - springY.get()) * 6}deg) rotateY(${(springX.get() - 0.5) * 6}deg)`,
-        transition: "transform 0.1s ease",
-      }
-    : undefined;
-
   return (
     <motion.div
       ref={ref}
@@ -58,7 +51,7 @@ export function GlassPanel({
       viewport={{ once: true, margin: "-50px" }}
       transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
       className={`${baseClass} rounded-2xl ${className}`}
-      style={style}
+      style={tilt ? { transformPerspective: 1000, rotateX, rotateY } : undefined}
     >
       {children}
     </motion.div>

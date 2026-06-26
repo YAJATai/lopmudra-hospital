@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { motion } from "motion/react";
-import { ArrowRight, Sparkles, Heart, Shield, Monitor, Wind, BedDouble, Baby, Microscope, Syringe, Tv } from "lucide-react";
+import { ArrowRight, Sparkles, Heart, Shield, Monitor, Wind, BedDouble, Baby, Microscope, Syringe } from "lucide-react";
 import { TextReveal } from "../components/text-reveal";
 import { GlassPanel } from "../components/glass-panel";
 import { ParallaxImage } from "../components/parallax-image";
@@ -79,7 +79,7 @@ function Gallery() {
             className="group overflow-hidden rounded-3xl border"
             style={{ borderColor: "oklch(0.9 0.005 200)" }}
           >
-            <div className={`grid lg:grid-cols-2 ${i % 2 === 1 ? "lg:flex-row-reverse" : ""}`}>
+            <div className="grid lg:grid-cols-2">
               <div className={`aspect-[4/3] lg:aspect-auto overflow-hidden ${i % 2 === 1 ? "lg:order-2" : ""}`}>
                 <ParallaxImage src={f.image} alt={f.title} speed={0.15} className="h-full w-full" />
               </div>

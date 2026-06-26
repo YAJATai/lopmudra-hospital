@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { motion } from "motion/react";
-import { ArrowRight, Sparkles, Phone, Heart, Baby, HeartPulse, Stethoscope, Activity, ShieldCheck, Ambulance } from "lucide-react";
+import { ArrowRight, Sparkles, Phone, Baby, HeartPulse, Stethoscope, Activity, ShieldCheck, Ambulance } from "lucide-react";
 import { TextReveal } from "../components/text-reveal";
 import { GlassPanel } from "../components/glass-panel";
 

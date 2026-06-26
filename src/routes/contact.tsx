@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { motion } from "motion/react";
 import { useState } from "react";
-import { ArrowRight, Sparkles, Phone, Heart, Mail, MapPin, Clock, MessageCircle, Send, CheckCircle, Loader2, Calendar, Navigation } from "lucide-react";
+import { ArrowRight, Sparkles, Phone, Heart, Mail, MapPin, Clock, MessageCircle, Send, CheckCircle, Loader2 } from "lucide-react";
 import { TextReveal } from "../components/text-reveal";
 import { GlassPanel } from "../components/glass-panel";
 

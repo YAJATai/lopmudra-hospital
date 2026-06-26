@@ -130,6 +130,7 @@ function Nav() {
   const { scrollY } = useScroll();
   const navHeight = useTransform(scrollY, [0, 80], [88, 64]);
   const navBlur = useTransform(scrollY, [0, 80], [0, 16]);
+  const navBlurStyle = useTransform(navBlur, (v) => `blur(${v}px)`);
   const navOpacity = useTransform(scrollY, [0, 80], [0, 0.92]);
   const indicatorRef = useRef<HTMLDivElement>(null);
 
@@ -148,8 +149,8 @@ function Nav() {
       >
         <motion.div
           style={{
-            backdropFilter: `blur(${navBlur}px)`,
-            WebkitBackdropFilter: `blur(${navBlur}px)`,
+            backdropFilter: navBlurStyle,
+            WebkitBackdropFilter: navBlurStyle,
             background: navOpacity,
           }}
           className="absolute inset-0 rounded-2xl glass-panel-strong"
