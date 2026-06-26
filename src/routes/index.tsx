@@ -9,7 +9,6 @@ import {
   Shield,
   Users,
   Clock,
-  ChevronDown,
   Sparkles,
 } from "lucide-react";
 
@@ -56,77 +55,58 @@ function Index() {
 function Hero() {
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
-  const y = useTransform(scrollYProgress, [0, 1], [0, 200]);
   const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
-  const scale = useTransform(scrollYProgress, [0, 1], [1, 1.15]);
 
   return (
-    <section ref={ref} className="relative min-h-[100svh] overflow-hidden pt-28 sm:pt-32">
-      <motion.div style={{ scale }} className="absolute inset-0">
-        <img src={heroImg} alt="Lopmudra Hospital exterior" className="h-full w-full object-cover" />
-        <div className="absolute inset-0" style={{ background: "var(--gradient-hero)" }} />
-      </motion.div>
+    <section ref={ref} className="relative min-h-screen overflow-hidden bg-black">
+      <div className="absolute inset-0">
+        <img src={heroImg} alt="" className="h-full w-full object-cover" />
+      </div>
+      <div className="absolute inset-0 bg-black/50" />
 
-      <motion.div style={{ y, opacity }} className="relative z-10 mx-auto flex min-h-[calc(100svh-7rem)] max-w-7xl flex-col justify-center px-5 pb-20 sm:px-8">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2, duration: 0.8 }}
-          className="inline-flex w-fit items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-1.5 text-xs font-medium uppercase tracking-[0.18em] text-white backdrop-blur-md"
-        >
-          <Sparkles className="h-3.5 w-3.5" style={{ color: "var(--gold)" }} /> Trusted by Pashan since 2008
-        </motion.div>
-
-        <motion.h1
-          initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.35, duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-          className="mt-6 max-w-4xl text-balance font-display text-5xl font-medium leading-[1.02] text-white sm:text-7xl lg:text-[5.5rem]"
-        >
-          Care that feels <em className="italic" style={{ color: "var(--gold)" }}>personal.</em><br />
-          Expertise that feels <em className="italic" style={{ color: "var(--gold)" }}>endless.</em>
-        </motion.h1>
-
-        <motion.p
-          initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.55, duration: 0.8 }}
-          className="mt-6 max-w-2xl text-balance text-lg text-white/85 sm:text-xl"
-        >
-          A multispeciality &amp; maternity hospital in the heart of Pashan — where modern medicine meets the warmth of a family doctor.
-        </motion.p>
-
-        <motion.div
-          initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.7, duration: 0.8 }}
-          className="mt-10 flex flex-wrap items-center gap-4"
-        >
-          <Link
-            to="/appointments"
-            className="group inline-flex items-center gap-3 rounded-full bg-white px-7 py-4 text-base font-semibold transition-all hover:-translate-y-0.5"
-            style={{ color: "var(--primary)", boxShadow: "var(--shadow-elegant)" }}
+      <motion.div style={{ opacity }} className="relative z-10 mx-auto flex min-h-screen max-w-6xl flex-col justify-center px-6 pb-24">
+        <div className="max-w-3xl">
+          <motion.h1
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
+            className="font-display text-5xl font-medium leading-[1.05] text-white sm:text-6xl lg:text-7xl"
           >
-            Book an Appointment
-            <span className="grid h-7 w-7 place-items-center rounded-full text-primary-foreground transition-transform group-hover:translate-x-1" style={{ background: "var(--primary)" }}>
-              <ArrowRight className="h-3.5 w-3.5" />
-            </span>
-          </Link>
-          <a
-            href={`tel:${PHONE}`}
-            className="inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/5 px-6 py-4 text-base font-medium text-white backdrop-blur-md transition-colors hover:bg-white/10"
-          >
-            <Phone className="h-4 w-4" /> 24×7 Emergency
-          </a>
-        </motion.div>
+            Care that feels personal.
+            <br />
+            Expertise that feels endless.
+          </motion.h1>
 
-        <motion.div
-          initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1, duration: 1 }}
-          className="absolute bottom-8 left-5 right-5 flex items-center justify-between text-white/80 sm:left-8 sm:right-8"
-        >
-          <div className="flex items-center gap-2 text-sm">
-            <span className="flex">
-              {[...Array(5)].map((_, i) => <Star key={i} className="h-4 w-4 fill-current" style={{ color: "var(--gold)" }} />)}
-            </span>
-            <span className="font-medium">4.6</span>
-            <span className="text-white/60">· 1,000+ patients</span>
-          </div>
-          <a href="#about" className="hidden items-center gap-2 text-xs uppercase tracking-[0.2em] sm:flex">
-            Scroll <ChevronDown className="h-3 w-3 animate-bounce" />
-          </a>
-        </motion.div>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+            className="mt-5 max-w-xl text-base text-white/65 sm:text-lg"
+          >
+            A multispeciality & maternity hospital in the heart of Pashan.
+          </motion.p>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.35, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+            className="mt-8 flex flex-wrap items-center gap-3"
+          >
+            <Link
+              to="/appointments"
+              className="inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-semibold text-neutral-900 transition-all hover:bg-neutral-100"
+            >
+              Book an appointment
+              <ArrowRight className="h-4 w-4" />
+            </Link>
+            <a
+              href={`tel:${PHONE}`}
+              className="inline-flex items-center gap-2 rounded-full border border-white/20 px-6 py-3 text-sm font-medium text-white/70 transition-colors hover:text-white"
+            >
+              <Phone className="h-4 w-4" /> Emergency
+            </a>
+          </motion.div>
+        </div>
       </motion.div>
     </section>
   );
