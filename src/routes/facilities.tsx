@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { motion } from "motion/react";
-import { ArrowRight, Sparkles, Heart, Shield, Monitor, Wind, BedDouble, Baby, Microscope, Syringe } from "lucide-react";
+import { ArrowRight, Sparkles, Shield, Monitor, Wind, BedDouble, Baby, Microscope, Syringe } from "lucide-react";
 import { TextReveal } from "../components/text-reveal";
 import { GlassPanel } from "../components/glass-panel";
 import { ParallaxImage } from "../components/parallax-image";
@@ -37,27 +37,37 @@ function FacilitiesPage() {
   return (
     <div>
       <Hero />
-      <Gallery />
-      <AllFacilities />
-      <CTA />
+      <FeaturesSection />
+      <AllFacilitiesSection />
+      <CTASection />
     </div>
   );
 }
 
+const heroGrad = "linear-gradient(135deg, oklch(0.25 0.04 260), oklch(0.18 0.03 250))";
+
 function Hero() {
   return (
-    <section className="relative min-h-[55vh] flex items-center hero-gradient">
+    <section className="relative min-h-[55vh] flex items-center" style={{ background: heroGrad }}>
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_40%_at_50%_30%,rgba(255,255,255,0.05),transparent_60%)]" />
       <div className="relative z-10 mx-auto max-w-6xl px-6 py-32">
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}
-          className="glass-panel-strong inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-xs font-medium tracking-wide text-white/80 mb-8">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2 }}
+          className="glass-badge inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-xs font-medium tracking-wide text-white/80 mb-8"
+        >
           <Sparkles className="h-3 w-3 text-emerald-400" /> Inside Lopmudra
         </motion.div>
         <TextReveal as="h1" className="font-display text-5xl sm:text-7xl font-medium leading-[0.95] text-white max-w-3xl" delay={0.3}>
           Spaces where healing happens.
         </TextReveal>
-        <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.8, duration: 0.8 }}
-          className="mt-6 max-w-xl text-lg text-white/70">
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.8, duration: 0.8 }}
+          className="mt-6 max-w-xl text-lg text-white/70"
+        >
           Every facility designed to create a safe, comfortable environment for healing.
         </motion.p>
       </div>
@@ -65,7 +75,7 @@ function Hero() {
   );
 }
 
-function Gallery() {
+function FeaturesSection() {
   return (
     <section className="relative -mt-16 z-10 mx-auto max-w-6xl px-6 pb-32">
       <div className="space-y-6">
@@ -76,14 +86,13 @@ function Gallery() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: i * 0.1, duration: 0.7 }}
-            className="group overflow-hidden rounded-3xl border"
-            style={{ borderColor: "oklch(0.9 0.005 200)" }}
+            className="card overflow-hidden"
           >
             <div className="grid lg:grid-cols-2">
-              <div className={`aspect-[4/3] lg:aspect-auto overflow-hidden ${i % 2 === 1 ? "lg:order-2" : ""}`}>
+              <div className={`aspect-[4/3] lg:aspect-auto overflow-hidden ${i % 2 === 0 ? "" : "lg:order-2"}`}>
                 <ParallaxImage src={f.image} alt={f.title} speed={0.15} className="h-full w-full" />
               </div>
-              <div className={`p-8 sm:p-12 lg:p-14 flex flex-col justify-center ${i % 2 === 1 ? "lg:order-1" : ""}`}>
+              <div className={`p-8 sm:p-12 lg:p-14 flex flex-col justify-center ${i % 2 === 0 ? "" : "lg:order-1"}`}>
                 <span className="text-[10px] font-semibold uppercase tracking-[0.25em]" style={{ color: "oklch(0.45 0.12 220)" }}>
                   {f.tag}
                 </span>
@@ -103,9 +112,9 @@ function Gallery() {
   );
 }
 
-function AllFacilities() {
+function AllFacilitiesSection() {
   return (
-    <section className="py-32" style={{ background: "oklch(0.965 0.005 90)" }}>
+    <section className="py-32 bg-soft">
       <div className="mx-auto max-w-6xl px-6">
         <div className="mb-14 max-w-xl">
           <div className="mb-3 text-[11px] font-semibold uppercase tracking-[0.25em]" style={{ color: "oklch(0.45 0.12 220)" }}>Complete Setup</div>
@@ -119,8 +128,7 @@ function AllFacilities() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.04 }}
-              className="rounded-2xl border p-6 transition-all hover:-translate-y-1"
-              style={{ borderColor: "oklch(0.9 0.005 200)", background: "rgba(255,255,255,0.5)" }}
+              className="card p-6"
             >
               <div className="grid h-10 w-10 place-items-center rounded-xl mb-4" style={{ background: "oklch(0.45 0.12 220 / 0.08)", color: "oklch(0.45 0.12 220)" }}>
                 <f.icon className="h-5 w-5" />
@@ -135,11 +143,11 @@ function AllFacilities() {
   );
 }
 
-function CTA() {
+function CTASection() {
   return (
     <section className="py-32">
       <div className="mx-auto max-w-6xl px-6">
-        <GlassPanel intensity="strong" className="relative overflow-hidden rounded-[2rem] p-12 sm:p-16 text-center">
+        <div className="relative overflow-hidden rounded-[2rem] p-12 sm:p-16 text-center card">
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_60%_at_50%_0%,oklch(0.45_0.12_220/0.06),transparent_70%)]" />
           <div className="relative">
             <Shield className="mx-auto h-8 w-8 mb-6" style={{ color: "oklch(0.45 0.12 220)" }} />
@@ -153,7 +161,7 @@ function CTA() {
               </Link>
             </div>
           </div>
-        </GlassPanel>
+        </div>
       </div>
     </section>
   );

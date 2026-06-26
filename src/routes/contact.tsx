@@ -5,6 +5,10 @@ import { ArrowRight, Sparkles, Phone, Heart, Mail, MapPin, Clock, MessageCircle,
 import { TextReveal } from "../components/text-reveal";
 import { GlassPanel } from "../components/glass-panel";
 
+const PHONE = "+912025880000";
+const WHATSAPP = "https://wa.me/919999999999";
+const ADDRESS = "Survey No 148/4, Vishwakarma Nagar, Pashan–Sus Rd, near NIV, Pashan, Pune 411021";
+
 export const Route = createFileRoute("/contact")({
   head: () => ({
     meta: [
@@ -14,10 +18,6 @@ export const Route = createFileRoute("/contact")({
   }),
   component: ContactPage,
 });
-
-const PHONE = "+912025880000";
-const WHATSAPP = "https://wa.me/919999999999";
-const ADDRESS = "Survey No 148/4, Vishwakarma Nagar, Pashan–Sus Rd, near NIV, Pashan, Pune 411021";
 
 function ContactPage() {
   return (
@@ -31,18 +31,30 @@ function ContactPage() {
 
 function Hero() {
   return (
-    <section className="relative min-h-[55vh] flex items-center hero-gradient">
+    <section className="relative min-h-[55vh] flex items-center bg-navy overflow-hidden">
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_40%_at_40%_50%,rgba(255,255,255,0.05),transparent_60%)]" />
       <div className="relative z-10 mx-auto max-w-6xl px-6 py-32">
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}
-          className="glass-panel-strong inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-xs font-medium tracking-wide text-white/80 mb-8">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2 }}
+          className="glass-badge inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-xs font-medium tracking-wide text-white/80 mb-8"
+        >
           <Sparkles className="h-3 w-3 text-emerald-400" /> Get in Touch
         </motion.div>
-        <TextReveal as="h1" className="font-display text-5xl sm:text-7xl font-medium leading-[0.95] text-white max-w-3xl" delay={0.3}>
+        <TextReveal
+          as="h1"
+          className="font-display text-5xl sm:text-7xl font-medium leading-[0.95] text-white max-w-3xl"
+          delay={0.3}
+        >
           We're here to help.
         </TextReveal>
-        <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.8, duration: 0.8 }}
-          className="mt-6 max-w-xl text-lg text-white/70">
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.8, duration: 0.8 }}
+          className="mt-6 max-w-xl text-lg text-white/70"
+        >
           Whether you have a question or need emergency assistance — we're just a call away.
         </motion.p>
       </div>
@@ -55,27 +67,36 @@ function Content() {
   const [sending, setSending] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault(); setSending(true);
+    e.preventDefault();
+    setSending(true);
     await new Promise((r) => setTimeout(r, 1500));
-    setSending(false); setSubmitted(true);
+    setSending(false);
+    setSubmitted(true);
   };
 
   return (
     <section className="relative -mt-16 z-10 mx-auto max-w-6xl px-6 pb-32">
       <div className="grid gap-8 lg:grid-cols-5">
         <div className="lg:col-span-3">
-          <GlassPanel intensity="strong" className="p-8 sm:p-10">
+          <GlassPanel className="p-8 sm:p-10">
             <h2 className="font-display text-2xl font-medium">Send a message</h2>
-            <p className="mt-1 text-sm" style={{ color: "oklch(0.5 0.01 200)" }}>We respond within 2 hours during working hours.</p>
+            <p className="mt-1 text-sm text-muted">We respond within 2 hours during working hours.</p>
 
             {submitted ? (
-              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="mt-8 text-center py-12">
-                <div className="mx-auto grid h-16 w-16 place-items-center rounded-full mb-5" style={{ background: "oklch(0.45 0.12 220)", color: "white" }}>
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                className="mt-8 text-center py-12"
+              >
+                <div className="mx-auto grid h-16 w-16 place-items-center rounded-full mb-5 bg-emerald/10 text-emerald">
                   <CheckCircle className="h-8 w-8" />
                 </div>
                 <h3 className="font-display text-2xl font-medium">Sent!</h3>
-                <p className="mt-2 text-sm" style={{ color: "oklch(0.5 0.01 200)" }}>We'll get back to you shortly.</p>
-                <button onClick={() => setSubmitted(false)} className="mt-6 rounded-full px-6 py-3 text-sm font-medium text-white" style={{ background: "oklch(0.45 0.12 220)" }}>
+                <p className="mt-2 text-sm text-muted">We'll get back to you shortly.</p>
+                <button
+                  onClick={() => setSubmitted(false)}
+                  className="mt-6 rounded-full px-6 py-3 text-sm font-medium text-white bg-navy hover:bg-navy/90 transition-colors"
+                >
                   Send another
                 </button>
               </motion.div>
@@ -83,26 +104,32 @@ function Content() {
               <form onSubmit={handleSubmit} className="mt-8 space-y-4">
                 <div className="grid gap-4 sm:grid-cols-2">
                   <div>
-                    <label className="text-[11px] font-semibold uppercase tracking-widest" style={{ color: "oklch(0.45 0.12 220)" }}>Name</label>
+                    <label className="text-[11px] font-semibold uppercase tracking-widest text-navy">Name</label>
                     <input type="text" required placeholder="Your name" className="glass-input mt-1.5" />
                   </div>
                   <div>
-                    <label className="text-[11px] font-semibold uppercase tracking-widest" style={{ color: "oklch(0.45 0.12 220)" }}>Phone</label>
+                    <label className="text-[11px] font-semibold uppercase tracking-widest text-navy">Phone</label>
                     <input type="tel" required placeholder="+91 98xxx xxxxx" className="glass-input mt-1.5" />
                   </div>
                 </div>
                 <div>
-                  <label className="text-[11px] font-semibold uppercase tracking-widest" style={{ color: "oklch(0.45 0.12 220)" }}>Email</label>
+                  <label className="text-[11px] font-semibold uppercase tracking-widest text-navy">Email</label>
                   <input type="email" required placeholder="your@email.com" className="glass-input mt-1.5" />
                 </div>
                 <div>
-                  <label className="text-[11px] font-semibold uppercase tracking-widest" style={{ color: "oklch(0.45 0.12 220)" }}>Message</label>
+                  <label className="text-[11px] font-semibold uppercase tracking-widest text-navy">Message</label>
                   <textarea required rows={4} placeholder="How can we help?" className="glass-input mt-1.5 resize-none" />
                 </div>
-                <button type="submit" disabled={sending}
-                  className="inline-flex w-full items-center justify-center gap-2 rounded-full py-3.5 text-sm font-medium text-white transition-all"
-                  style={{ background: "oklch(0.45 0.12 220)" }}>
-                  {sending ? <><Loader2 className="h-4 w-4 animate-spin" /> Sending...</> : <><Send className="h-4 w-4" /> Send Message</>}
+                <button
+                  type="submit"
+                  disabled={sending}
+                  className="inline-flex w-full items-center justify-center gap-2 rounded-full py-3.5 text-sm font-medium text-white bg-navy hover:bg-navy/90 transition-all disabled:opacity-60"
+                >
+                  {sending ? (
+                    <><Loader2 className="h-4 w-4 animate-spin" /> Sending...</>
+                  ) : (
+                    <><Send className="h-4 w-4" /> Send Message</>
+                  )}
                 </button>
               </form>
             )}
@@ -110,7 +137,7 @@ function Content() {
         </div>
 
         <div className="lg:col-span-2 space-y-4">
-          <GlassPanel intensity="strong" className="p-8">
+          <div className="card p-8">
             <h3 className="font-display text-xl font-medium mb-5">Contact Info</h3>
             <div className="space-y-5">
               {[
@@ -121,29 +148,39 @@ function Content() {
                 { icon: Clock, label: "Hours", value: "OPD: Mon–Sat, 9 AM – 9 PM\nEmergency: 24×7" },
               ].map((item) => (
                 <div key={item.label} className="flex items-start gap-3">
-                  <div className="grid h-9 w-9 shrink-0 place-items-center rounded-xl" style={{ background: "oklch(0.45 0.12 220 / 0.08)", color: "oklch(0.45 0.12 220)" }}>
+                  <div className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-navy/8 text-navy">
                     <item.icon className="h-4 w-4" />
                   </div>
                   <div>
-                    <div className="text-[11px] font-semibold uppercase tracking-widest" style={{ color: "oklch(0.55 0.01 200)" }}>{item.label}</div>
-                    <div className="mt-0.5 text-sm" style={{ color: "oklch(0.3 0.01 200)", whiteSpace: "pre-line" }}>
-                      {item.href ? <a href={item.href} className="hover:opacity-70">{item.value}</a> : item.value}
+                    <div className="text-[11px] font-semibold uppercase tracking-widest text-muted">{item.label}</div>
+                    <div className="mt-0.5 text-sm text-charcoal" style={{ whiteSpace: "pre-line" }}>
+                      {item.href ? <a href={item.href} className="hover:opacity-70 transition-opacity">{item.value}</a> : item.value}
                     </div>
                   </div>
                 </div>
               ))}
             </div>
-          </GlassPanel>
+          </div>
 
-          <GlassPanel intensity="strong" className="p-8" style={{ borderColor: "oklch(0.7 0.15 30 / 0.3)" }}>
-            <h3 className="font-display text-xl font-medium mb-2" style={{ color: "oklch(0.5 0.2 25)" }}>Emergency?</h3>
-            <p className="text-sm mb-5" style={{ color: "oklch(0.55 0.01 200)" }}>Do not use the form. Call us directly.</p>
-            <a href={`tel:${PHONE}`}
-              className="flex items-center justify-center gap-2 rounded-full py-3.5 text-sm font-medium text-white transition-all"
-              style={{ background: "oklch(0.5 0.2 25)" }}>
+          <div
+            className="p-8 rounded-[1.25rem]"
+            style={{
+              background: "oklch(0.98 0.01 25)",
+              border: "1px solid oklch(0.8 0.15 25 / 0.3)",
+            }}
+          >
+            <h3 className="font-display text-xl font-medium mb-2" style={{ color: "oklch(0.5 0.2 25)" }}>
+              Emergency?
+            </h3>
+            <p className="text-sm mb-5 text-muted">Do not use the form. Call us directly.</p>
+            <a
+              href={`tel:${PHONE}`}
+              className="flex items-center justify-center gap-2 rounded-full py-3.5 text-sm font-medium text-white transition-all hover:opacity-90"
+              style={{ background: "oklch(0.5 0.2 25)" }}
+            >
               <Phone className="h-4 w-4" /> {PHONE.replace("+91", "+91 ")}
             </a>
-          </GlassPanel>
+          </div>
         </div>
       </div>
     </section>
@@ -152,24 +189,33 @@ function Content() {
 
 function CTA() {
   return (
-    <section className="py-32" style={{ background: "oklch(0.15 0.015 200)" }}>
+    <section className="py-32 bg-navy">
       <div className="mx-auto max-w-6xl px-6">
-        <GlassPanel intensity="strong" className="relative overflow-hidden rounded-[2rem] p-12 sm:p-16 text-center">
+        <div className="relative overflow-hidden rounded-[2rem] p-12 sm:p-16 text-center" style={{ background: "oklch(0.2 0.02 260)" }}>
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_60%_at_50%_0%,rgba(255,255,255,0.05),transparent_70%)]" />
           <div className="relative">
+            <Heart className="mx-auto h-8 w-8 mb-6 text-emerald-400/80" />
             <TextReveal as="h2" className="font-display text-4xl sm:text-5xl font-medium leading-[1.05] text-white">
               Your health comes first.
             </TextReveal>
             <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
-              <Link to="/appointments" className="relative overflow-hidden rounded-full px-7 py-3.5 text-sm font-medium" style={{ background: "white", color: "oklch(0.15 0.015 200)" }}>
-                <span className="relative flex items-center gap-2">Book Appointment <ArrowRight className="h-4 w-4" /></span>
+              <Link
+                to="/appointments"
+                className="relative overflow-hidden rounded-full px-7 py-3.5 text-sm font-medium bg-white text-navy hover:bg-white/90 transition-colors"
+              >
+                <span className="relative flex items-center gap-2">
+                  Book Appointment <ArrowRight className="h-4 w-4" />
+                </span>
               </Link>
-              <a href={`tel:${PHONE}`} className="flex items-center gap-2 rounded-full border border-white/20 px-7 py-3.5 text-sm font-medium text-white/90">
+              <a
+                href={`tel:${PHONE}`}
+                className="flex items-center gap-2 rounded-full border border-white/20 px-7 py-3.5 text-sm font-medium text-white/90 hover:bg-white/5 transition-colors"
+              >
                 <Phone className="h-4 w-4" /> Call Now
               </a>
             </div>
           </div>
-        </GlassPanel>
+        </div>
       </div>
     </section>
   );

@@ -6,10 +6,11 @@ import {
   Phone,
   Star,
   Heart,
-  Shield,
   Users,
   Clock,
+  Shield,
   Sparkles,
+  ChevronRight,
 } from "lucide-react";
 
 import heroImg from "@/assets/hero-hospital.jpg";
@@ -41,7 +42,7 @@ function Index() {
   return (
     <div>
       <Hero />
-      <TrustSection />
+      <TrustBar />
       <AboutSection />
       <ServicesSection />
       <DoctorsSection />
@@ -58,14 +59,19 @@ function Hero() {
   const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
 
   return (
-    <section ref={ref} className="relative min-h-screen overflow-hidden bg-black">
+    <section ref={ref} className="relative min-h-screen overflow-hidden bg-navy">
       <div className="absolute inset-0">
         <img src={heroImg} alt="" className="h-full w-full object-cover" />
       </div>
-      <div className="absolute inset-0 bg-black/50" />
+      <div className="absolute inset-0 bg-gradient-to-b from-black/60 to-black/40" />
 
       <motion.div style={{ opacity }} className="relative z-10 mx-auto flex min-h-screen max-w-6xl flex-col justify-center px-6 pb-24">
         <div className="max-w-3xl">
+          <GlassPanel glass className="glass-badge mb-6 inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-xs font-medium text-white/80">
+            <Shield className="h-3 w-3 text-emerald" />
+            Trusted by 1,000+ families since 2007
+          </GlassPanel>
+
           <motion.h1
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
@@ -94,7 +100,7 @@ function Hero() {
           >
             <Link
               to="/appointments"
-              className="inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-semibold text-neutral-900 transition-all hover:bg-neutral-100"
+              className="inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-semibold text-navy transition-all hover:bg-neutral-100"
             >
               Book an appointment
               <ArrowRight className="h-4 w-4" />
@@ -112,7 +118,7 @@ function Hero() {
   );
 }
 
-function TrustSection() {
+function TrustBar() {
   const items = [
     { icon: Heart, value: "17+", label: "Years of Service" },
     { icon: Users, value: "50K+", label: "Patients Treated" },
@@ -122,15 +128,15 @@ function TrustSection() {
 
   return (
     <section className="relative -mt-16 z-20 mx-auto max-w-6xl px-6">
-      <GlassPanel intensity="strong" className="grid grid-cols-2 divide-x md:grid-cols-4 md:divide-x" style={{ borderColor: "oklch(0.92 0.005 200 / 0.5)" }}>
+      <div className="grid grid-cols-2 divide-x divide-border rounded-2xl border border-border bg-surface md:grid-cols-4 md:divide-x">
         {items.map((item, i) => (
           <div key={i} className="flex flex-col items-center gap-1.5 px-6 py-8 text-center">
-            <item.icon className="h-5 w-5" style={{ color: "oklch(0.45 0.12 220)" }} />
-            <span className="font-display text-3xl font-medium">{item.value}</span>
-            <span className="text-[11px] uppercase tracking-widest" style={{ color: "oklch(0.5 0.01 200)" }}>{item.label}</span>
+            <item.icon className="h-5 w-5 text-navy" />
+            <span className="font-display text-3xl font-medium text-charcoal">{item.value}</span>
+            <span className="text-[11px] uppercase tracking-widest text-muted">{item.label}</span>
           </div>
         ))}
-      </GlassPanel>
+      </div>
     </section>
   );
 }
@@ -149,26 +155,23 @@ function AboutSection() {
                 className="aspect-[4/5] w-full"
               />
             </div>
-            <GlassPanel
-              intensity="strong"
-              className="absolute -bottom-6 -right-6 max-w-xs p-6 lg:-right-8"
-            >
-              <div className="flex items-center gap-2 text-sm font-medium" style={{ color: "oklch(0.45 0.12 220)" }}>
+            <GlassPanel glass className="glass-widget absolute -bottom-6 -right-6 max-w-xs p-6 lg:-right-8">
+              <div className="flex items-center gap-2 text-sm font-medium text-navy">
                 <Shield className="h-4 w-4" /> NABH-aligned Care
               </div>
-              <p className="mt-2 text-xs leading-relaxed" style={{ color: "oklch(0.5 0.01 200)" }}>
+              <p className="mt-2 text-xs leading-relaxed text-muted">
                 Sterile OTs, modern ICU, and protocols built around patient safety.
               </p>
             </GlassPanel>
           </div>
 
           <div className="flex flex-col justify-center">
-            <div className="mb-3 text-[11px] font-semibold uppercase tracking-[0.25em]" style={{ color: "oklch(0.45 0.12 220)" }}>
+            <div className="mb-3 text-[11px] font-semibold uppercase tracking-[0.25em] text-navy">
               About Lopmudra
             </div>
             <TextReveal
               as="h2"
-              className="font-display text-4xl sm:text-5xl font-medium leading-[1.05]"
+              className="font-display text-4xl sm:text-5xl font-medium leading-[1.05] text-charcoal"
             >
               A neighbourhood hospital, built on trust.
             </TextReveal>
@@ -177,7 +180,7 @@ function AboutSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.4, duration: 0.8 }}
-              className="mt-6 text-base leading-relaxed" style={{ color: "oklch(0.5 0.01 200)" }}
+              className="mt-6 text-base leading-relaxed text-muted"
             >
               For nearly two decades, Lopmudra Hospital has been Pashan's answer to honest, attentive healthcare.
               We combine modern diagnostics and an experienced clinical team with the unhurried care of a family doctor.
@@ -195,8 +198,8 @@ function AboutSection() {
                 "Transparent pricing",
                 "Family-friendly environment",
               ].map((item) => (
-                <div key={item} className="flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium" style={{ background: "oklch(0.96 0.005 90 / 0.6)" }}>
-                  <span className="h-1.5 w-1.5 rounded-full" style={{ background: "oklch(0.45 0.12 220)" }} />
+                <div key={item} className="flex items-center gap-3 rounded-xl bg-soft px-4 py-3 text-sm font-medium text-charcoal">
+                  <span className="h-1.5 w-1.5 rounded-full bg-navy" />
                   {item}
                 </div>
               ))}
@@ -210,8 +213,7 @@ function AboutSection() {
             >
               <Link
                 to="/about"
-                className="group inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-medium text-white transition-all hover:shadow-lg"
-                style={{ background: "oklch(0.45 0.12 220)" }}
+                className="group inline-flex items-center gap-2 rounded-full bg-navy px-6 py-3 text-sm font-medium text-white transition-all hover:shadow-lg"
               >
                 Learn Our Story <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
               </Link>
@@ -233,59 +235,55 @@ function ServicesSection() {
     { title: "24×7 Emergency", desc: "Round-the-clock response for time-critical cases.", highlight: "Always open" },
   ];
 
+  const icons = [Heart, Shield, Users, Clock, Sparkles, Phone];
+
   return (
-    <section className="relative py-32 sm:py-40" style={{ background: "oklch(0.965 0.005 90)" }}>
+    <section className="section-alt relative py-32 sm:py-40">
       <div className="mx-auto max-w-6xl px-6">
         <div className="flex flex-col items-start justify-between gap-6 lg:flex-row lg:items-end">
           <div className="max-w-xl">
-            <div className="mb-3 text-[11px] font-semibold uppercase tracking-[0.25em]" style={{ color: "oklch(0.45 0.12 220)" }}>What we do</div>
-            <TextReveal as="h2" className="font-display text-4xl sm:text-5xl font-medium leading-[1.05]">
+            <div className="mb-3 text-[11px] font-semibold uppercase tracking-[0.25em] text-navy">What we do</div>
+            <TextReveal as="h2" className="font-display text-4xl sm:text-5xl font-medium leading-[1.05] text-charcoal">
               Specialist care, under one roof.
             </TextReveal>
           </div>
           <Link
             to="/services"
-            className="group hidden items-center gap-2 text-sm font-medium lg:flex" style={{ color: "oklch(0.45 0.12 220)" }}
+            className="group hidden items-center gap-2 text-sm font-medium lg:flex text-navy"
           >
             View all services <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
           </Link>
         </div>
 
         <div className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {services.map((s, i) => (
-            <motion.div
-              key={s.title}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ delay: i * 0.05, duration: 0.6 }}
-              className="group relative overflow-hidden rounded-2xl border p-7 transition-all duration-500 hover:-translate-y-1"
-              style={{ borderColor: "oklch(0.9 0.005 200)", background: "rgba(255,255,255,0.6)", backdropFilter: "blur(8px)" }}
-            >
-              <div className="absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100" style={{ background: "linear-gradient(135deg, oklch(0.45 0.12 220 / 0.03), transparent)" }} />
-              <div className="relative">
-                <div className="mb-4 inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[10px] font-medium uppercase tracking-widest" style={{ background: "oklch(0.45 0.12 220 / 0.1)", color: "oklch(0.45 0.12 220)" }}>
+          {services.map((s, i) => {
+            const Icon = icons[i];
+            return (
+              <motion.div
+                key={s.title}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ delay: i * 0.05, duration: 0.6 }}
+                className="card group"
+              >
+                <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-navy">
+                  <Icon className="h-5 w-5 text-white" />
+                </div>
+                <div className="mb-3 inline-flex items-center gap-1.5 rounded-full bg-navy/10 px-2.5 py-1 text-[10px] font-medium uppercase tracking-widest text-navy">
                   <Sparkles className="h-2.5 w-2.5" /> {s.highlight}
                 </div>
-                <h3 className="font-display text-2xl font-medium">{s.title}</h3>
-                <p className="mt-3 text-sm leading-relaxed" style={{ color: "oklch(0.5 0.01 200)" }}>{s.desc}</p>
-                <Link
-                  to="/services"
-                  className="mt-5 flex items-center gap-1.5 text-xs font-medium transition-opacity opacity-0 group-hover:opacity-100"
-                  style={{ color: "oklch(0.45 0.12 220)" }}
-                >
-                  Learn more <ArrowRight className="h-3 w-3" />
-                </Link>
-              </div>
-            </motion.div>
-          ))}
+                <h3 className="font-display text-xl font-medium text-charcoal">{s.title}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-muted">{s.desc}</p>
+              </motion.div>
+            );
+          })}
         </div>
 
         <div className="mt-6 text-center lg:hidden">
           <Link
             to="/services"
-            className="inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-medium text-white"
-            style={{ background: "oklch(0.45 0.12 220)" }}
+            className="inline-flex items-center gap-2 rounded-full bg-navy px-6 py-3 text-sm font-medium text-white"
           >
             View all services <ArrowRight className="h-4 w-4" />
           </Link>
@@ -305,10 +303,8 @@ function DoctorsSection() {
     <section className="relative py-32 sm:py-40">
       <div className="mx-auto max-w-6xl px-6">
         <div className="mx-auto mb-16 max-w-xl text-center">
-          <div className="mb-3 text-[11px] font-semibold uppercase tracking-[0.25em]" style={{ color: "oklch(0.45 0.12 220)" }}>
-            Our team
-          </div>
-          <TextReveal as="h2" className="font-display text-4xl sm:text-5xl font-medium leading-[1.05]">
+          <div className="mb-3 text-[11px] font-semibold uppercase tracking-[0.25em] text-navy">Our team</div>
+          <TextReveal as="h2" className="font-display text-4xl sm:text-5xl font-medium leading-[1.05] text-charcoal">
             The people behind your good days.
           </TextReveal>
         </div>
@@ -337,10 +333,7 @@ function DoctorsSection() {
                 <div className="mt-1 font-display text-3xl font-medium text-white">{d.name}</div>
                 <div className="text-sm text-white/70">{d.role}</div>
               </div>
-              <GlassPanel
-                intensity="light"
-                className="absolute right-4 top-4 rounded-xl px-3 py-1.5 opacity-0 transition-opacity group-hover:opacity-100"
-              >
+              <GlassPanel glass className="absolute right-4 top-4 rounded-xl px-3 py-1.5 opacity-0 transition-opacity group-hover:opacity-100">
                 <span className="text-xs text-white">View Profile</span>
               </GlassPanel>
             </motion.div>
@@ -355,8 +348,7 @@ function DoctorsSection() {
         >
           <Link
             to="/doctors"
-            className="group inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-medium text-white transition-all hover:shadow-lg"
-            style={{ background: "oklch(0.45 0.12 220)" }}
+            className="group inline-flex items-center gap-2 rounded-full bg-navy px-6 py-3 text-sm font-medium text-white transition-all hover:shadow-lg"
           >
             Meet All Doctors <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
           </Link>
@@ -374,20 +366,18 @@ function FacilitiesSection() {
   ];
 
   return (
-    <section className="relative py-32 sm:py-40" style={{ background: "oklch(0.15 0.015 200)" }}>
+    <section className="relative bg-navy py-32 sm:py-40">
       <div className="mx-auto max-w-6xl px-6">
         <div className="flex flex-col items-start justify-between gap-6 lg:flex-row lg:items-end">
           <div className="max-w-xl">
-            <div className="mb-3 text-[11px] font-semibold uppercase tracking-[0.25em]" style={{ color: "oklch(0.6 0.1 145)" }}>
-              Inside Lopmudra
-            </div>
+            <div className="mb-3 text-[11px] font-semibold uppercase tracking-[0.25em] text-emerald">Inside Lopmudra</div>
             <TextReveal as="h2" className="font-display text-4xl sm:text-5xl font-medium leading-[1.05] text-white">
               Spaces designed for healing.
             </TextReveal>
           </div>
           <Link
             to="/facilities"
-            className="group hidden items-center gap-2 text-sm font-medium lg:flex" style={{ color: "oklch(0.6 0.1 145)" }}
+            className="group hidden items-center gap-2 text-sm font-medium lg:flex text-emerald"
           >
             Explore facilities <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
           </Link>
@@ -413,7 +403,7 @@ function FacilitiesSection() {
               </div>
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
               <div className="absolute inset-x-0 bottom-0 p-7">
-                <div className="text-[10px] uppercase tracking-[0.25em]" style={{ color: "oklch(0.6 0.1 145)" }}>{it.tag}</div>
+                <div className="text-[10px] uppercase tracking-[0.25em] text-emerald">{it.tag}</div>
                 <div className="mt-2 font-display text-2xl font-medium text-white">{it.title}</div>
               </div>
             </motion.div>
@@ -423,8 +413,7 @@ function FacilitiesSection() {
         <div className="mt-6 text-center lg:hidden">
           <Link
             to="/facilities"
-            className="inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-medium text-white"
-            style={{ background: "oklch(0.6 0.1 145)" }}
+            className="inline-flex items-center gap-2 rounded-full bg-emerald px-6 py-3 text-sm font-medium text-white"
           >
             Explore facilities <ArrowRight className="h-4 w-4" />
           </Link>
@@ -445,10 +434,8 @@ function TestimonialsSection() {
     <section className="relative py-32 sm:py-40">
       <div className="mx-auto max-w-6xl px-6">
         <div className="mx-auto mb-16 max-w-xl text-center">
-          <div className="mb-3 text-[11px] font-semibold uppercase tracking-[0.25em]" style={{ color: "oklch(0.45 0.12 220)" }}>
-            Patient stories
-          </div>
-          <TextReveal as="h2" className="font-display text-4xl sm:text-5xl font-medium leading-[1.05]">
+          <div className="mb-3 text-[11px] font-semibold uppercase tracking-[0.25em] text-navy">Patient stories</div>
+          <TextReveal as="h2" className="font-display text-4xl sm:text-5xl font-medium leading-[1.05] text-charcoal">
             Loved by 1,000+ families.
           </TextReveal>
           <motion.div
@@ -462,8 +449,8 @@ function TestimonialsSection() {
                 <Star key={i} className="h-4 w-4 fill-current text-amber-400" />
               ))}
             </div>
-            <span className="font-medium">4.6 / 5</span>
-            <span className="text-muted-foreground">· verified reviews</span>
+            <span className="font-medium text-charcoal">4.6 / 5</span>
+            <span className="text-muted">· verified reviews</span>
           </motion.div>
         </div>
 
@@ -475,18 +462,17 @@ function TestimonialsSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.1, duration: 0.6 }}
-              className="relative rounded-2xl border p-8 transition-all hover:-translate-y-1"
-              style={{ borderColor: "oklch(0.9 0.005 200)", background: "rgba(255,255,255,0.5)" }}
+              className="card"
             >
-              <div className="flex gap-1 mb-4">
+              <div className="mb-4 flex gap-1">
                 {[...Array(r.rating)].map((_, j) => (
                   <Star key={j} className="h-3.5 w-3.5 fill-current text-amber-400" />
                 ))}
               </div>
-              <blockquote className="font-display text-xl leading-snug" style={{ color: "oklch(0.2 0.01 200)" }}>
+              <blockquote className="font-display text-xl leading-snug text-charcoal">
                 &ldquo;{r.text}&rdquo;
               </blockquote>
-              <figcaption className="mt-5 text-sm" style={{ color: "oklch(0.5 0.01 200)" }}>— {r.name}</figcaption>
+              <figcaption className="mt-5 text-sm text-muted">— {r.name}</figcaption>
             </motion.div>
           ))}
         </div>
@@ -497,15 +483,15 @@ function TestimonialsSection() {
 
 function CTASection() {
   return (
-    <section className="relative py-32 sm:py-40" style={{ background: "oklch(0.965 0.005 90)" }}>
+    <section className="relative bg-soft py-32 sm:py-40">
       <div className="mx-auto max-w-6xl px-6">
-        <GlassPanel intensity="strong" className="relative overflow-hidden rounded-[2rem] p-12 sm:p-16 text-center">
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_60%_at_50%_0%,oklch(0.45_0.12_220/0.06),transparent_70%)]" />
+        <div className="relative overflow-hidden rounded-[2rem] border border-border bg-surface p-12 text-center sm:p-16">
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_60%_at_50%_0%,oklch(0.25_0.04_260/0.04),transparent_70%)]" />
           <div className="relative">
-            <Heart className="mx-auto h-8 w-8 mb-6" style={{ color: "oklch(0.45 0.12 220)" }} />
+            <Heart className="mx-auto mb-6 h-8 w-8 text-navy" />
             <TextReveal
               as="h2"
-              className="font-display text-4xl sm:text-5xl font-medium leading-[1.05]"
+              className="font-display text-4xl sm:text-5xl font-medium leading-[1.05] text-charcoal"
             >
               We're open. Let's talk.
             </TextReveal>
@@ -513,7 +499,7 @@ function CTASection() {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="mx-auto mt-5 max-w-md text-sm" style={{ color: "oklch(0.5 0.01 200)" }}
+              className="mx-auto mt-5 max-w-md text-sm text-muted"
             >
               Book a consultation, call our front desk — we'll guide you through the next step.
             </motion.p>
@@ -527,27 +513,17 @@ function CTASection() {
             >
               <Link
                 to="/appointments"
-                className="relative overflow-hidden rounded-full px-7 py-3.5 text-sm font-medium text-white transition-all hover:shadow-lg"
-                style={{ background: "oklch(0.45 0.12 220)" }}
+                className="relative overflow-hidden rounded-full bg-navy px-7 py-3.5 text-sm font-medium text-white transition-all hover:shadow-lg"
               >
-                <div className="absolute inset-0 bg-gradient-to-b from-white/15 to-transparent" />
                 <span className="relative flex items-center gap-2">
                   Book Appointment <ArrowRight className="h-4 w-4" />
                 </span>
               </Link>
               <a
                 href={`tel:${PHONE}`}
-                className="flex items-center gap-2 rounded-full border px-7 py-3.5 text-sm font-medium transition-colors hover:bg-black/5"
-                style={{ borderColor: "oklch(0.85 0.005 200)" }}
+                className="flex items-center gap-2 rounded-full border border-border px-7 py-3.5 text-sm font-medium text-charcoal transition-colors hover:bg-black/5"
               >
                 <Phone className="h-4 w-4" /> Call Now
-              </a>
-              <a
-                href={WHATSAPP}
-                className="flex items-center gap-2 rounded-full border px-7 py-3.5 text-sm font-medium transition-colors hover:bg-black/5"
-                style={{ borderColor: "oklch(0.85 0.005 200)" }}
-              >
-                <Phone className="h-4 w-4" /> WhatsApp
               </a>
             </motion.div>
 
@@ -556,13 +532,13 @@ function CTASection() {
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
               transition={{ delay: 0.4 }}
-              className="mt-8 flex items-center justify-center gap-6 text-xs flex-wrap" style={{ color: "oklch(0.55 0.01 200)" }}
+              className="mt-8 flex flex-wrap items-center justify-center gap-6 text-xs text-muted"
             >
               <span className="flex items-center gap-1.5"><Clock className="h-3 w-3" /> OPD: Mon–Sat, 9 AM – 9 PM</span>
-              <span className="flex items-center gap-1.5"><Phone className="h-3 w-3" /> {PHONE.replace("+91", "+91 ")}</span>
+              <span className="flex items-center gap-1.5"><Phone className="h-3 w-3" /> {PHONE}</span>
             </motion.div>
           </div>
-        </GlassPanel>
+        </div>
       </div>
     </section>
   );

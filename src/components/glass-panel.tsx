@@ -1,59 +1,15 @@
-import { useRef, type ReactNode } from "react";
-import { motion, useMotionValue, useSpring, useTransform } from "motion/react";
+import type { ReactNode } from "react";
 
-interface GlassPanelProps {
+interface CardProps {
   children: ReactNode;
   className?: string;
-  intensity?: "light" | "strong" | "dark";
-  tilt?: boolean;
+  glass?: boolean;
 }
 
-export function GlassPanel({
-  children,
-  className = "",
-  intensity = "light",
-  tilt = false,
-}: GlassPanelProps) {
-  const ref = useRef<HTMLDivElement>(null);
-  const x = useMotionValue(0.5);
-  const y = useMotionValue(0.5);
-  const springX = useSpring(x, { stiffness: 150, damping: 15 });
-  const springY = useSpring(y, { stiffness: 150, damping: 15 });
-  const rotateX = useTransform(springY, (v) => (0.5 - v) * 6);
-  const rotateY = useTransform(springX, (v) => (v - 0.5) * 6);
-
-  const baseClass =
-    intensity === "strong"
-      ? "glass-panel-strong"
-      : intensity === "dark"
-        ? "glass-panel-dark"
-        : "glass-panel";
-
-  const handleMouseMove = (e: React.MouseEvent) => {
-    if (!tilt || !ref.current) return;
-    const rect = ref.current.getBoundingClientRect();
-    x.set((e.clientX - rect.left) / rect.width);
-    y.set((e.clientY - rect.top) / rect.height);
-  };
-
-  const handleMouseLeave = () => {
-    x.set(0.5);
-    y.set(0.5);
-  };
-
+export function GlassPanel({ children, className = "", glass = false }: CardProps) {
   return (
-    <motion.div
-      ref={ref}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-50px" }}
-      transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-      className={`${baseClass} rounded-2xl ${className}`}
-      style={tilt ? { transformPerspective: 1000, rotateX, rotateY } : undefined}
-    >
+    <div className={`${glass ? "glass-widget" : "card"} ${className}`}>
       {children}
-    </motion.div>
+    </div>
   );
 }
