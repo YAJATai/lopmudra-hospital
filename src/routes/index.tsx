@@ -9,7 +9,6 @@ import {
   Shield,
   Users,
   Clock,
-  ChevronDown,
   Sparkles,
 } from "lucide-react";
 
@@ -56,74 +55,69 @@ function Index() {
 function Hero() {
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
-  const imgY = useTransform(scrollYProgress, [0, 1], [0, 150]);
   const opacity = useTransform(scrollYProgress, [0, 0.9], [1, 0]);
 
   return (
-    <section ref={ref} className="relative min-h-screen overflow-hidden hero-gradient">
-      <ParallaxImage
-        src={heroImg}
-        alt=""
-        speed={0.4}
-        className="absolute inset-0 h-[120%] w-full"
-        mask
-      />
-      <div className="absolute inset-0 hero-gradient" />
-
+    <section ref={ref} className="relative min-h-screen overflow-hidden bg-black">
+      <div className="absolute inset-0 h-[120%] w-full">
+        <ParallaxImage
+          src={heroImg}
+          alt=""
+          speed={0.3}
+          className="h-full w-full"
+        />
+      </div>
+      <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black/70" />
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_30%_20%,rgba(255,255,255,0.06),transparent_70%)]" />
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_40%_at_70%_80%,rgba(255,255,255,0.04),transparent_60%)]" />
 
-      <motion.div style={{ opacity }} className="relative z-10 mx-auto flex min-h-screen max-w-6xl flex-col justify-center px-6 pb-32">
+      <motion.div style={{ opacity }} className="relative z-10 mx-auto flex min-h-screen max-w-6xl flex-col justify-center px-6 pb-20">
         <div className="max-w-3xl">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3, duration: 0.8 }}
-            className="glass-panel-strong inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-xs font-medium tracking-wide text-white/80 mb-8"
+            transition={{ delay: 0.3, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+            className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-xs font-medium tracking-wide text-white/70 backdrop-blur-sm mb-8"
           >
             <Sparkles className="h-3 w-3 text-emerald-400" />
             Trusted by Pashan since 2008
           </motion.div>
 
-          <TextReveal
-            as="h1"
+          <motion.h1
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.5, duration: 1, ease: [0.22, 1, 0.36, 1] }}
             className="font-display text-5xl sm:text-7xl lg:text-8xl font-medium leading-[0.95] text-white"
-            delay={0.4}
           >
-            Care that feels personal. Expertise that feels endless.
-          </TextReveal>
+            Care that feels personal.
+            <br />
+            Expertise that feels endless.
+          </motion.h1>
 
           <motion.p
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1, duration: 0.8 }}
-            className="mt-6 max-w-xl text-lg text-white/70 sm:text-xl"
+            transition={{ delay: 0.8, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+            className="mt-6 max-w-xl text-lg text-white/60 sm:text-xl"
           >
             A multispeciality & maternity hospital in the heart of Pashan — where modern medicine meets the warmth of a family doctor.
           </motion.p>
 
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1.2, duration: 0.8 }}
+            transition={{ delay: 1.1, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
             className="mt-10 flex flex-wrap items-center gap-4"
           >
             <Link
               to="/appointments"
-              className="group relative overflow-hidden rounded-full px-8 py-4 text-base font-medium text-white transition-all hover:shadow-[0_12px_40px_rgba(255,255,255,0.15)]"
-              style={{ background: "rgba(255,255,255,0.15)", backdropFilter: "blur(12px)", border: "1px solid rgba(255,255,255,0.2)" }}
+              className="group inline-flex items-center gap-2 rounded-full bg-white px-8 py-4 text-base font-semibold text-oklch(0.15 0.015 200) transition-all duration-300 hover:shadow-[0_12px_40px_rgba(255,255,255,0.2)] hover:scale-[1.02]"
             >
-              <div className="absolute inset-0 bg-gradient-to-b from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-              <span className="relative flex items-center gap-3">
-                Book an Appointment
-                <span className="grid h-7 w-7 place-items-center rounded-full bg-white text-oklch(0.45 0.12 220) transition-transform group-hover:translate-x-1">
-                  <ArrowRight className="h-3.5 w-3.5" />
-                </span>
-              </span>
+              Book an Appointment
+              <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
             </Link>
             <a
               href={`tel:${PHONE}`}
-              className="flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-7 py-4 text-base font-medium text-white/90 backdrop-blur-sm transition-all hover:bg-white/10"
+              className="inline-flex items-center gap-2 rounded-full border border-white/20 px-8 py-4 text-base font-medium text-white/80 transition-all duration-300 hover:bg-white/10 hover:text-white"
             >
               <Phone className="h-4 w-4" /> 24×7 Emergency
             </a>
@@ -133,54 +127,17 @@ function Hero() {
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 1.5, duration: 1 }}
-          className="absolute bottom-10 left-6 right-6 flex items-center justify-between text-white/50"
+          transition={{ delay: 1.4, duration: 1 }}
+          className="mt-20 flex items-center gap-3"
         >
-          <div className="flex items-center gap-3">
-            <div className="flex">
-              {[...Array(5)].map((_, i) => (
-                <Star key={i} className="h-3.5 w-3.5 fill-current text-amber-400/70" />
-              ))}
-            </div>
-            <span className="text-sm font-medium text-white/70">4.6</span>
-            <span className="text-xs text-white/40">· 1,000+ reviews</span>
+          <div className="flex">
+            {[...Array(5)].map((_, i) => (
+              <Star key={i} className="h-4 w-4 fill-current text-amber-400/80" />
+            ))}
           </div>
-          <div className="hidden items-center gap-2 text-xs tracking-widest uppercase sm:flex">
-            Scroll <ChevronDown className="h-3 w-3 animate-bounce" />
-          </div>
+          <span className="text-sm font-medium text-white/60">4.6</span>
+          <span className="text-sm text-white/40">· 1,000+ reviews</span>
         </motion.div>
-      </motion.div>
-
-      {/* Floating glass cards */}
-      <motion.div
-        initial={{ opacity: 0, x: 50 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ delay: 1.6, duration: 1, ease: [0.22, 1, 0.36, 1] }}
-        className="absolute right-8 top-1/3 hidden lg:block"
-      >
-        <div className="glass-panel-strong rounded-2xl p-5 space-y-3">
-          <div className="text-[10px] font-semibold uppercase tracking-widest text-white/50">24×7</div>
-          <div className="text-sm text-white">Emergency Care</div>
-          <div className="flex items-center gap-2 text-xs text-white/60">
-            <Clock className="h-3 w-3" /> Always open
-          </div>
-        </div>
-      </motion.div>
-
-      <motion.div
-        initial={{ opacity: 0, x: -50 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ delay: 1.8, duration: 1, ease: [0.22, 1, 0.36, 1] }}
-        className="absolute left-8 top-2/3 hidden lg:block"
-      >
-        <div className="glass-panel-strong rounded-2xl p-5 space-y-3">
-          <div className="flex items-center gap-2">
-            <Shield className="h-4 w-4 text-emerald-400" />
-            <span className="text-[10px] font-semibold uppercase tracking-widest text-white/50">NABH-aligned</span>
-          </div>
-          <div className="text-sm text-white">Patient Safety</div>
-          <div className="text-xs text-white/60">Modern OT · ICU · NICU</div>
-        </div>
       </motion.div>
     </section>
   );
