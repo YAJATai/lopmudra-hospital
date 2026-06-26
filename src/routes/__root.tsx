@@ -8,36 +8,34 @@ import {
   Scripts,
   useLocation,
 } from "@tanstack/react-router";
-import { useEffect, useState, type ReactNode } from "react";
-import { motion, AnimatePresence } from "motion/react";
+import { useEffect, useState, useRef, type ReactNode } from "react";
+import {
+  motion,
+  AnimatePresence,
+  useScroll,
+  useTransform,
+} from "motion/react";
 import {
   Phone,
-  HeartPulse,
+  Heart,
   Menu,
   X,
   ArrowRight,
   MessageCircle,
   MapPin,
   Calendar,
-  Stethoscope,
-  Baby,
-  Activity,
-  ShieldCheck,
-  Ambulance,
-  Award,
-  Building2,
-  Images,
-  CalendarClock,
   Mail,
   Clock,
+  ChevronRight,
 } from "lucide-react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
+import { FloatingParticles } from "../components/floating-particles";
 
 const PHONE = "+912025880000";
 const WHATSAPP = "https://wa.me/919999999999";
-const ADDRESS = "Survey No 148/4, Vishwakarma Nagar, CTS No. 1338, Pashan–Sus Rd, near NIV, Pashan, Pune, Maharashtra 411021";
+const ADDRESS = "Survey No 148/4, Vishwakarma Nagar, Pashan–Sus Rd, near NIV, Pashan, Pune 411021";
 
 const navLinks = [
   { label: "Home", to: "/" },
@@ -51,56 +49,43 @@ const navLinks = [
 
 function NotFoundComponent() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background px-4">
+    <div className="flex min-h-screen items-center justify-center bg-surface px-4">
       <div className="max-w-md text-center">
-        <h1 className="text-7xl font-bold text-foreground">404</h1>
-        <h2 className="mt-4 text-xl font-semibold text-foreground">Page not found</h2>
-        <p className="mt-2 text-sm text-muted-foreground">
-          The page you're looking for doesn't exist or has been moved.
-        </p>
-        <div className="mt-6">
-          <Link
-            to="/"
-            className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
-          >
-            Go home
-          </Link>
+        <div className="mx-auto mb-8 grid h-24 w-24 place-items-center rounded-full glass-panel-strong">
+          <span className="font-display text-5xl font-medium text-foreground/40">404</span>
         </div>
+        <h1 className="font-display text-4xl font-medium">Page not found</h1>
+        <p className="mt-3 text-sm text-foreground/60">The page you're looking for doesn't exist or has moved.</p>
+        <Link
+          to="/"
+          className="mt-8 inline-flex items-center gap-2 rounded-full bg-oklch(0.45 0.12 220) px-6 py-3 text-sm font-medium text-white"
+        >
+          Go home <ArrowRight className="h-4 w-4" />
+        </Link>
       </div>
     </div>
   );
 }
 
 function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
-  console.error(error);
   const router = useRouter();
-  useEffect(() => {
-    reportLovableError(error, { boundary: "tanstack_root_error_component" });
-  }, [error]);
-
+  useEffect(() => { reportLovableError(error, { boundary: "tanstack_root_error_component" }); }, [error]);
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background px-4">
+    <div className="flex min-h-screen items-center justify-center bg-surface px-4">
       <div className="max-w-md text-center">
-        <h1 className="text-xl font-semibold tracking-tight text-foreground">
-          This page didn't load
-        </h1>
-        <p className="mt-2 text-sm text-muted-foreground">
-          Something went wrong on our end. You can try refreshing or head back home.
-        </p>
-        <div className="mt-6 flex flex-wrap justify-center gap-2">
+        <div className="mx-auto mb-8 grid h-24 w-24 place-items-center rounded-full glass-panel-strong">
+          <span className="text-3xl">!</span>
+        </div>
+        <h1 className="font-display text-4xl font-medium">Something went wrong</h1>
+        <p className="mt-3 text-sm text-foreground/60">You can try refreshing or head back home.</p>
+        <div className="mt-8 flex justify-center gap-3">
           <button
-            onClick={() => {
-              router.invalidate();
-              reset();
-            }}
-            className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
+            onClick={() => { router.invalidate(); reset(); }}
+            className="rounded-full bg-oklch(0.45 0.12 220) px-6 py-3 text-sm font-medium text-white"
           >
             Try again
           </button>
-          <Link
-            to="/"
-            className="inline-flex items-center justify-center rounded-md border border-input bg-background px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-accent"
-          >
+          <Link to="/" className="rounded-full border border-border px-6 py-3 text-sm font-medium">
             Go home
           </Link>
         </div>
@@ -114,18 +99,14 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lopmudra Hospital, Pashan Pune | Multispeciality & Maternity Care" },
-      { name: "description", content: "Lopmudra Hospital in Pashan, Pune — trusted multispeciality & maternity care with experienced doctors, 24×7 emergency, modern OT and ICU. 4.6★ rated by 1,000+ patients." },
-      { property: "og:title", content: "Lopmudra Hospital — Compassionate Care in Pashan, Pune" },
-      { property: "og:description", content: "Multispeciality & maternity hospital in Pashan, Pune. 24×7 emergency, modern OT, ICU, NICU. Rated 4.6★ by 1,000+ patients." },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
+      { title: "Lopmudra Hospital, Pashan Pune" },
+      { name: "description", content: "Multispeciality & maternity care in Pashan, Pune. 24×7 emergency." },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
-      { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" },
+      { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@300;400;500;600&display=swap" },
     ],
   }),
   shellComponent: RootShell,
@@ -137,113 +118,134 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 function RootShell({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
-      <head>
-        <HeadContent />
-      </head>
-      <body>
-        {children}
-        <Scripts />
-      </body>
+      <head><HeadContent /></head>
+      <body className="overflow-x-hidden">{children}<Scripts /></body>
     </html>
   );
 }
 
 function Nav() {
   const [open, setOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
+  const { scrollY } = useScroll();
+  const navHeight = useTransform(scrollY, [0, 80], [88, 64]);
+  const navBlur = useTransform(scrollY, [0, 80], [0, 16]);
+  const navOpacity = useTransform(scrollY, [0, 80], [0, 0.92]);
+  const indicatorRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20);
-    window.addEventListener("scroll", onScroll);
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
-  useEffect(() => {
-    setOpen(false);
-  }, [location.pathname]);
+  useEffect(() => { setOpen(false); }, [location.pathname]);
 
   return (
     <motion.header
-      initial={{ y: -40, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-      className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ${
-        scrolled ? "bg-background/85 backdrop-blur-xl border-b border-border/60 py-3" : "py-5"
-      }`}
+      initial={{ y: -100 }}
+      animate={{ y: 0 }}
+      transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+      className="fixed inset-x-0 top-0 z-50"
     >
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-5 sm:px-8">
-        <Link to="/" className="flex items-center gap-2.5">
-          <span className="grid h-10 w-10 place-items-center rounded-full bg-primary text-primary-foreground shadow-[var(--shadow-soft)]">
-            <HeartPulse className="h-5 w-5" />
-          </span>
-          <span className="flex flex-col leading-none">
-            <span className="font-display text-lg font-semibold tracking-tight">Lopmudra</span>
-            <span className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground">Hospital · Pune</span>
-          </span>
-        </Link>
-
-        <nav className="hidden items-center gap-8 lg:flex">
-          {navLinks.map((link) => (
-            <Link
-              key={link.to}
-              to={link.to}
-              className={`text-sm font-medium transition-colors hover:text-primary ${
-                location.pathname === link.to
-                  ? "text-primary"
-                  : "text-foreground/80"
-              }`}
-            >
-              {link.label}
-            </Link>
-          ))}
-        </nav>
-
-        <div className="hidden items-center gap-3 lg:flex">
-          <a href={`tel:${PHONE}`} className="flex items-center gap-2 text-sm font-medium text-primary">
-            <Phone className="h-4 w-4" /> {PHONE.replace("+91", "+91 ")}
-          </a>
-          <Link to="/appointments" className="inline-flex items-center gap-2 rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground shadow-[var(--shadow-soft)] transition-all hover:shadow-[var(--shadow-elegant)] hover:-translate-y-0.5">
-            Book Appointment <ArrowRight className="h-4 w-4" />
+      <motion.div
+        style={{ height: navHeight }}
+        className="mx-auto mt-3 flex max-w-6xl items-center justify-between rounded-2xl px-6 transition-all duration-300"
+      >
+        <motion.div
+          style={{
+            backdropFilter: `blur(${navBlur}px)`,
+            WebkitBackdropFilter: `blur(${navBlur}px)`,
+            background: navOpacity,
+          }}
+          className="absolute inset-0 rounded-2xl glass-panel-strong"
+        />
+        <div className="relative z-10 flex w-full items-center justify-between">
+          <Link to="/" className="flex items-center gap-3">
+            <div className="grid h-9 w-9 place-items-center rounded-xl bg-oklch(0.45 0.12 220) text-white">
+              <Heart className="h-4 w-4" />
+            </div>
+            <span className="font-display text-base font-medium tracking-tight">Lopmudra</span>
           </Link>
-        </div>
 
-        <button onClick={() => setOpen(!open)} className="grid h-10 w-10 place-items-center rounded-full border border-border lg:hidden" aria-label="Menu">
-          {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-        </button>
-      </div>
+          <nav className="hidden items-center gap-1 lg:flex">
+            {navLinks.map((link) => {
+              const isActive = location.pathname === link.to;
+              return (
+                <Link
+                  key={link.to}
+                  to={link.to}
+                  className="relative px-3 py-2 text-sm font-medium transition-colors"
+                  style={{ color: isActive ? "oklch(0.45 0.12 220)" : "oklch(0.3 0.01 200 / 0.8)" }}
+                >
+                  {link.label}
+                  {isActive && (
+                    <motion.div
+                      layoutId="nav-indicator"
+                      className="absolute inset-x-2 -bottom-0.5 h-0.5 rounded-full"
+                      style={{ background: "oklch(0.45 0.12 220)" }}
+                    />
+                  )}
+                </Link>
+              );
+            })}
+          </nav>
+
+          <div className="hidden items-center gap-3 lg:flex">
+            <a href={`tel:${PHONE}`} className="flex items-center gap-2 text-sm font-medium" style={{ color: "oklch(0.45 0.12 220)" }}>
+              <Phone className="h-3.5 w-3.5" /> {PHONE.replace("+91", "+91 ")}
+            </a>
+            <Link
+              to="/appointments"
+              className="relative overflow-hidden rounded-full px-5 py-2.5 text-sm font-medium text-white transition-all hover:shadow-[0_8px_30px_oklch(0.45_0.12_220/0.3)]"
+              style={{ background: "oklch(0.45 0.12 220)" }}
+            >
+              <div className="absolute inset-0 bg-gradient-to-b from-white/20 to-transparent opacity-0 hover:opacity-100 transition-opacity" />
+              <span className="relative flex items-center gap-2">
+                Book Now <ArrowRight className="h-3.5 w-3.5" />
+              </span>
+            </Link>
+          </div>
+
+          <button onClick={() => setOpen(!open)} className="relative z-10 grid h-9 w-9 place-items-center rounded-xl border lg:hidden" style={{ borderColor: "oklch(0.9 0.005 200)" }}>
+            {open ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
+          </button>
+        </div>
+      </motion.div>
 
       <AnimatePresence>
         {open && (
           <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            className="mx-5 mt-3 rounded-2xl border border-border bg-card p-5 shadow-[var(--shadow-elegant)] lg:hidden"
+            initial={{ opacity: 0, y: -10, scale: 0.98 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -10, scale: 0.98 }}
+            transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+            className="glass-panel-strong mx-5 mt-2 rounded-2xl p-4 lg:hidden"
           >
-            <div className="flex flex-col gap-3">
-              {navLinks.map((link) => (
+            <div className="flex flex-col gap-1">
+              {navLinks.map((link) => {
+                const isActive = location.pathname === link.to;
+                return (
+                  <Link
+                    key={link.to}
+                    to={link.to}
+                    className="flex items-center justify-between rounded-xl px-4 py-3 text-sm font-medium transition-colors"
+                    style={{
+                      background: isActive ? "oklch(0.45 0.12 220 / 0.08)" : "transparent",
+                      color: isActive ? "oklch(0.45 0.12 220)" : "oklch(0.3 0.01 200)",
+                    }}
+                  >
+                    {link.label}
+                    <ChevronRight className="h-4 w-4 opacity-40" />
+                  </Link>
+                );
+              })}
+              <div className="mt-2 flex flex-col gap-2 border-t pt-3" style={{ borderColor: "oklch(0.9 0.005 200)" }}>
                 <Link
-                  key={link.to}
-                  to={link.to}
-                  className={`rounded-lg px-3 py-2 text-base font-medium transition-colors ${
-                    location.pathname === link.to
-                      ? "bg-primary/10 text-primary"
-                      : "hover:bg-accent"
-                  }`}
+                  to="/appointments"
+                  className="flex items-center justify-center gap-2 rounded-full py-3 text-sm font-medium text-white"
+                  style={{ background: "oklch(0.45 0.12 220)" }}
                 >
-                  {link.label}
+                  <Calendar className="h-4 w-4" /> Book Appointment
                 </Link>
-              ))}
-              <Link
-                to="/appointments"
-                className="mt-2 inline-flex items-center justify-center gap-2 rounded-full bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground"
-              >
-                <CalendarClock className="h-4 w-4" /> Book Appointment
-              </Link>
-              <a href={`tel:${PHONE}`} className="inline-flex items-center justify-center gap-2 rounded-full border border-border px-5 py-3 text-sm font-semibold">
-                <Phone className="h-4 w-4" /> Call Now
-              </a>
+                <a href={`tel:${PHONE}`} className="flex items-center justify-center gap-2 rounded-full border py-3 text-sm font-medium">
+                  <Phone className="h-4 w-4" /> Call Now
+                </a>
+              </div>
             </div>
           </motion.div>
         )}
@@ -254,51 +256,38 @@ function Nav() {
 
 function Footer() {
   return (
-    <footer className="border-t border-border bg-card">
-      <div className="mx-auto max-w-7xl px-5 py-14 sm:px-8">
-        <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
+    <footer className="relative border-t" style={{ borderColor: "oklch(0.92 0.005 200)" }}>
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent to-oklch(0.96 0.005 90/0.5) pointer-events-none" />
+      <div className="relative mx-auto max-w-6xl px-6 py-16 sm:py-20">
+        <div className="grid gap-12 sm:grid-cols-2 lg:grid-cols-4">
           <div>
-            <Link to="/" className="flex items-center gap-2.5">
-              <span className="grid h-10 w-10 place-items-center rounded-full bg-primary text-primary-foreground">
-                <HeartPulse className="h-5 w-5" />
-              </span>
-              <span className="font-display text-lg font-semibold">Lopmudra Hospital</span>
-            </Link>
-            <p className="mt-4 max-w-xs text-sm text-muted-foreground">Compassionate multispeciality & maternity care, in the heart of Pashan, Pune.</p>
-            <div className="mt-6 flex items-center gap-3">
-              <span className="flex">
-                {[...Array(5)].map((_, i) => (
-                  <svg key={i} className="h-4 w-4 fill-current text-gold" viewBox="0 0 20 20">
-                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                  </svg>
-                ))}
-              </span>
-              <span className="text-sm font-medium">4.6</span>
-              <span className="text-xs text-muted-foreground">· 1,000+ reviews</span>
+            <div className="flex items-center gap-3">
+              <div className="grid h-10 w-10 place-items-center rounded-xl" style={{ background: "oklch(0.45 0.12 220)", color: "white" }}>
+                <Heart className="h-5 w-5" />
+              </div>
+              <span className="font-display text-lg font-medium">Lopmudra</span>
             </div>
+            <p className="mt-4 max-w-xs text-sm" style={{ color: "oklch(0.5 0.01 200)" }}>
+              Multispeciality & maternity care in the heart of Pashan, Pune.
+            </p>
           </div>
 
           <div>
-            <div className="text-xs font-semibold uppercase tracking-[0.2em] text-foreground">Quick Links</div>
-            <div className="mt-4 space-y-3">
+            <div className="mb-4 text-[11px] font-semibold uppercase tracking-[0.2em]" style={{ color: "oklch(0.45 0.12 220)" }}>Navigate</div>
+            <div className="space-y-2.5">
               {navLinks.map((link) => (
                 <div key={link.to}>
-                  <Link to={link.to} className="text-sm text-muted-foreground transition-colors hover:text-primary">
+                  <Link to={link.to} className="text-sm transition-colors hover:opacity-70" style={{ color: "oklch(0.4 0.01 200)" }}>
                     {link.label}
                   </Link>
                 </div>
               ))}
-              <div>
-                <Link to="/appointments" className="text-sm text-muted-foreground transition-colors hover:text-primary">
-                  Appointments
-                </Link>
-              </div>
             </div>
           </div>
 
           <div>
-            <div className="text-xs font-semibold uppercase tracking-[0.2em] text-foreground">Services</div>
-            <div className="mt-4 space-y-3 text-sm text-muted-foreground">
+            <div className="mb-4 text-[11px] font-semibold uppercase tracking-[0.2em]" style={{ color: "oklch(0.45 0.12 220)" }}>Services</div>
+            <div className="space-y-2.5 text-sm" style={{ color: "oklch(0.4 0.01 200)" }}>
               <div>Maternity & Obstetrics</div>
               <div>General Medicine</div>
               <div>Paediatrics</div>
@@ -309,61 +298,58 @@ function Footer() {
           </div>
 
           <div>
-            <div className="text-xs font-semibold uppercase tracking-[0.2em] text-foreground">Contact</div>
-            <div className="mt-4 space-y-3 text-sm text-muted-foreground">
-              <div className="flex items-start gap-2">
+            <div className="mb-4 text-[11px] font-semibold uppercase tracking-[0.2em]" style={{ color: "oklch(0.45 0.12 220)" }}>Contact</div>
+            <div className="space-y-3 text-sm" style={{ color: "oklch(0.4 0.01 200)" }}>
+              <div className="flex items-start gap-2.5">
                 <MapPin className="mt-0.5 h-3.5 w-3.5 shrink-0" />
                 <span>{ADDRESS}</span>
               </div>
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2.5">
                 <Phone className="h-3.5 w-3.5 shrink-0" />
-                <a href={`tel:${PHONE}`} className="hover:text-primary">{PHONE.replace("+91", "+91 ")}</a>
+                <a href={`tel:${PHONE}`} className="hover:opacity-70">{PHONE.replace("+91", "+91 ")}</a>
               </div>
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2.5">
                 <Clock className="h-3.5 w-3.5 shrink-0" />
-                <span>OPD: 9 AM – 9 PM · Emergency 24×7</span>
+                <span>OPD: 9 AM – 9 PM · 24×7 Emergency</span>
               </div>
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2.5">
                 <Mail className="h-3.5 w-3.5 shrink-0" />
-                <a href="mailto:care@lopmudrahospital.com" className="hover:text-primary">care@lopmudrahospital.com</a>
+                <a href="mailto:care@lopmudrahospital.com" className="hover:opacity-70">care@lopmudrahospital.com</a>
               </div>
             </div>
           </div>
         </div>
 
-        <div className="mt-12 flex flex-col items-start justify-between gap-3 border-t border-border pt-6 text-xs text-muted-foreground sm:flex-row sm:items-center">
-          <div>© {new Date().getFullYear()} Lopmudra Hospital. All rights reserved.</div>
+        <div className="mt-12 flex flex-col items-start justify-between gap-3 border-t pt-6 text-xs sm:flex-row sm:items-center" style={{ borderColor: "oklch(0.92 0.005 200)", color: "oklch(0.55 0.01 200)" }}>
+          <div>© {new Date().getFullYear()} Lopmudra Hospital.</div>
           <div className="flex items-center gap-4">
-            <Link to="/about" className="hover:text-primary">About</Link>
-            <Link to="/contact" className="hover:text-primary">Contact</Link>
-            <Link to="/appointments" className="hover:text-primary">Book Appointment</Link>
+            <Link to="/about" className="hover:opacity-70">About</Link>
+            <Link to="/contact" className="hover:opacity-70">Contact</Link>
+            <Link to="/appointments" className="hover:opacity-70">Book Appointment</Link>
           </div>
         </div>
       </div>
 
-      <motion.a
+      <a
         href={WHATSAPP}
-        initial={{ scale: 0, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        transition={{ delay: 0.5, type: "spring" }}
-        className="fixed bottom-5 right-5 z-40 grid h-14 w-14 place-items-center rounded-full bg-[#25D366] text-white shadow-[var(--shadow-elegant)] animate-float"
-        aria-label="WhatsApp"
         target="_blank"
         rel="noreferrer"
+        className="fixed bottom-6 right-6 z-40 grid h-14 w-14 place-items-center rounded-full text-white shadow-lg transition-transform hover:scale-110"
+        style={{ background: "#25D366" }}
       >
         <MessageCircle className="h-6 w-6" />
-      </motion.a>
+      </a>
     </footer>
   );
 }
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
-
   return (
     <QueryClientProvider client={queryClient}>
+      <FloatingParticles count={15} />
       <Nav />
-      <main className="min-h-screen pt-20">
+      <main className="min-h-screen">
         <Outlet />
       </main>
       <Footer />
